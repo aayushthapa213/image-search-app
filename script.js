@@ -1,4 +1,4 @@
-const apiKey = "3vItbrsjNXbxk5dIb9OZREPaHXmq--e6LXI2Ywlh8kY";
+const apiKey = import.meta.env.VITE_API_KEY;
 
 const formE1 = document.querySelector("form");
 const inputE1 = document.querySelector("#search-input");
@@ -14,15 +14,13 @@ async function searchImages() {
   const response = await fetch(url);
   const data = await response.json();
 
-  console.log(data);
-
   const results = data.results;
 
-  if (page == 1) {
+  if (page === 1) {
     searchResults.innerHTML = "";
   }
 
-  results.map((result) => {
+  results.forEach((result) => {
     const imageWrapper = document.createElement("div");
     imageWrapper.classList.add("search-result");
     const image = document.createElement("img");
@@ -31,7 +29,7 @@ async function searchImages() {
     const imageLink = document.createElement("a");
     imageLink.href = result.links.html;
     imageLink.target = "_blank";
-    imageLink.textContent = result.alt_description;
+    imageLink.textContent = result.alt_description || "View Image";
 
     imageWrapper.appendChild(image);
     imageWrapper.appendChild(imageLink);
@@ -51,6 +49,6 @@ formE1.addEventListener("submit", (e) => {
   searchImages();
 });
 
-showMore.addEventListener("click", (e) => {
+showMore.addEventListener("click", () => {
   searchImages();
 });
